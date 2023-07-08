@@ -19,3 +19,7 @@
 
 # Go workspace file
 go.work
+
+# OS metadata
+.DS_Store
+Thumbs.db

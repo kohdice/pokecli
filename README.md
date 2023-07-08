@@ -1,0 +1,2 @@
+# pokecli
+CLI for Pokédex.

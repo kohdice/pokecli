@@ -1,4 +1,4 @@
-BIN := pokecli
+BIN := poke
 BUILD_LDFLAGS := "-s -w"
 
 .PHONY: build
@@ -19,7 +19,12 @@ lint:
 
 .PHONY: test
 test:
-	go test -v ./...
+	go test -v -cover ./...
+
+.PHONY: coverage
+coverage:
+	go test -v -coverprofile=coverage.out -covermode=atomic ./...
+	go tool cover -html=coverage.out -o coverage.html
 
 .PHONY: tidy
 tidy:

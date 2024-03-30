@@ -16,15 +16,25 @@ func main() {
 		Name:        name,
 		Usage:       name,
 		Version:     version,
-		Description: "A command line application for Pokémon.",
+		Description: "A command line application for Pokémon",
 		Commands: []*cli.Command{
 			{
-				Name:  "search",
-				Usage: "Search for Pokémon.",
-				Action: func(cCtx *cli.Context) error {
-					fmt.Println("Searching for Pokémon...", cCtx.Args().First())
-					return nil
-				},
+				Name:        "number",
+				Description: "Search for Pokémon by National Pokédex Number",
+				Usage:       "Search for Pokémon by National Pokédex Number",
+				UsageText:   "poke number [number]",
+				HelpName:    "number",
+				ArgsUsage:   "[number]",
+				Action:      searchByNumber,
+			},
+			{
+				Name:        "name",
+				Description: "Search for Pokémon by name.",
+				Usage:       "Search for Pokémon by name.",
+				UsageText:   "poke name [name]",
+				HelpName:    "name",
+				ArgsUsage:   "[name]",
+				Action:      searchByName,
 			},
 		},
 	}

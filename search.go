@@ -36,19 +36,31 @@ func searchByName(cCtx *cli.Context) error {
 	return nil
 }
 
-func generateTable() *tablewriter.Table {
+func generateTable(pokemon *pokemon) *tablewriter.Table {
 	data := [][]string{
-		{"Status", "HP", "45"},
-		{"Status", "Attack", "49"},
-		{"Status", "Defense", "49"},
-		{"Status", "SpecialAttack", "65"},
-		{"Status", "SpecialDefense", "65"},
-		{"Status", "Speed", "45"},
-		{"Status", "BaseTotal", "318"},
+		{"Status", "HP", strconv.Itoa(pokemon.HP)},
+		{"Status", "Attack", strconv.Itoa(pokemon.Attack)},
+		{"Status", "Defense", strconv.Itoa(pokemon.Defense)},
+		{"Status", "SpecialAttack", strconv.Itoa(pokemon.SpecialAttack)},
+		{"Status", "SpecialDefense", strconv.Itoa(pokemon.SpecialDefense)},
+		{"Status", "Speed", strconv.Itoa(pokemon.Speed)},
+		{"Status", "BaseTotal", strconv.Itoa(pokemon.BaseTotal)},
+	}
+
+	for _, v := range pokemon.Types {
+		data = append(data, []string{"Types", fmt.Sprintf("Type %d", v.Slot), v.PokemonType.TypeName})
+	}
+
+	for _, v := range pokemon.Abilities {
+		if v.IsHidden {
+			data = append(data, []string{"Abilities", "Hidden Ability", v.PokemonAbility.AbilityName})
+		} else {
+			data = append(data, []string{"Abilities", fmt.Sprintf("Ability %d", v.Slot), v.PokemonAbility.AbilityName})
+		}
 	}
 
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{fmt.Sprintf("No:%d", 1), "フシギダネ", "Kanto"})
+	table.SetHeader([]string{fmt.Sprintf("No:%d", pokemon.NationalPokedexNumber), pokemon.Name, ""})
 	table.SetAutoMergeCellsByColumnIndex([]int{0})
 	table.SetRowLine(true)
 	table.AppendBulk(data)

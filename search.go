@@ -43,7 +43,20 @@ func searchByName(cCtx *cli.Context) error {
 		return fmt.Errorf("pokémon's name is required")
 	}
 
-	table := generateTable()
+	arg := cCtx.Args().First()
+	client := NewGraphqlClient("http://localhost:8000/graphql")
+	res, err := client.callApi(pokemonByNameQuery, map[string]interface{}{"name": arg})
+	if err != nil {
+		return fmt.Errorf("api call failed: %v", err)
+	}
+
+	pokemon := res.Data.PokemonByName
+
+	if pokemon == nil {
+		return fmt.Errorf("pokémon not found")
+	}
+
+	table := generateTable(pokemon)
 	table.Render()
 
 	return nil

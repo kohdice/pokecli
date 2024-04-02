@@ -15,11 +15,24 @@ func searchByNumber(cCtx *cli.Context) error {
 	}
 
 	arg := cCtx.Args().First()
-	if _, err := strconv.Atoi(arg); err != nil {
+	num, err := strconv.Atoi(arg)
+	if err != nil {
 		return fmt.Errorf("invalid argument: %s", arg)
 	}
 
-	table := generateTable()
+	client := NewGraphqlClient("http://localhost:8000/graphql")
+	res, err := client.callApi(pokemonByPokedexNumberQuery, map[string]interface{}{"number": num})
+	if err != nil {
+		return fmt.Errorf("api call failed: %v", err)
+	}
+
+	pokemon := res.Data.PokemonByPokedexNumber
+
+	if pokemon == nil {
+		return fmt.Errorf("pokémon not found")
+	}
+
+	table := generateTable(pokemon)
 	table.Render()
 
 	return nil

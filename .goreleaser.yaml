@@ -1,5 +1,7 @@
 builds:
-  - env: [CGO_ENABLED=0]
+  - binary: poke
+    env:
+      - CGO_ENABLED=0
     goos:
       - linux
       - windows
@@ -7,6 +9,5 @@ builds:
     goarch:
       - amd64
       - arm64
-
 release:
   draft: true

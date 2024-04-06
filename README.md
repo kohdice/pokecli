@@ -38,11 +38,11 @@ go install github.com/kohdice/pokecli@latest
 ### Get Pokémon data by National Pokédex number
 
 ```bash
-poke number 25
+pokecli number 25
 ```
 
 ### Get Pokémon data by Name
 
 ```bash
-poke name ピカチュウ
+pokecli name ピカチュウ
 ```
